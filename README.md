@@ -1,5 +1,5 @@
 # RISC-V CORDIC Implememtation
-
+Wyliczanie sinus i cosinus algorytmem CORDIC
 
 
 ## Założenia projektowe
