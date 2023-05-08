@@ -3,16 +3,18 @@
 #Input in pi radians [-1, 1)*pi
 #n = 30 rotations
 .data
-ARCTAN_ARR: .word 0x3243F6A8, 0x1DAC6705, 0x0FADBAFC, 0x07F56EA6, 0x03FEAB76, 0x01FFD55B, 0x00FFFAAA, 0x007FFF55, 0x003FFFEA, 0x001FFFFD, 0x000FFFFF, 0x0007FFFF, 0x0003FFFF, 0x0001FFFF, 0x0000FFFF, 0x00007FFF, 0x00003FFF, 0x00001FFF, 0x00000FFF, 0x000007FF, 0x000003FF, 0x000001FF, 0x000000FF, 0x0000007F, 0x0000003F, 0x0000001F, 0x0000000F, 0x00000008, 0x00000004, 0x00000002, 0x00000001, 0x00000000
-cos: .word 0x26DD3B6A #x = k constant
+ARCTAN_ARR: .word 0x20000000,0x12e4051d,0x09fb385b,0x051111d4,0x028b0d43,0x0145d7e1,0x00a2f61e,0x00517c55,0x0028be53,0x00145f2e,0x000a2f98,0x000517cc,0x00028be6,0x000145f3,0x0000a2f9,0x0000517c,0x000028be,0x0000145f,0x00000a2f,0x00000517,0x0000028b,0x00000145,0x000000a2,0x00000051,0x00000028,0x00000014,0x0000000a,0x00000005,0x00000002,0x00000001,0x00000000,0x00000000
+cos: .word 0x48cb2087 #x = k constant
 sin: .word 0 #y
-angle: .word 0x0 #45 deg
+angle: .word 0x20000000 #45 deg
 msg_sin: .asciz "SINUS\n"
 msg_cos: .asciz "\nCOSINUS\n"
+msg_sin1: .asciz "\nSINUS ADJUSTED\n"
+msg_cos1: .asciz "\nCOSINUS ADJUSTED\n"
 
 .text
 #t5, t6 rejestry do operacji
-	li t0, 1 #loop counter
+	li t0, 0 #loop counter
 	la t1, ARCTAN_ARR #array begin
 	
 main_loop:
@@ -71,11 +73,95 @@ end:
 	ecall
 	
 	li a7, 4
+	la a0, msg_sin1
+	ecall
+	
+	li a7, 1
+	li t2, 0
+	lw t0, sin
+	srai t1, t0, 2
+	add t2, t2, t1
+	srai t1, t0, 3
+	add t2, t2, t1
+	srai t1, t0, 4
+	add t2, t2, t1
+	srai t1, t0, 6
+	add t2, t2, t1
+	srai t1, t0, 7
+	add t2, t2, t1	
+	srai t1, t0, 8
+	add t2, t2, t1
+	srai t1, t0, 13
+	add t2, t2, t1
+	srai t1, t0, 15
+	add t2, t2, t1
+	srai t1, t0, 19
+	add t2, t2, t1
+	srai t1, t0, 20
+	add t2, t2, t1
+	srai t1, t0, 21
+	add t2, t2, t1
+	srai t1, t0, 22
+	add t2, t2, t1
+	srai t1, t0, 24
+	add t2, t2, t1
+	srai t1, t0, 26
+	add t2, t2, t1
+	srai t1, t0, 27
+	add t2, t2, t1
+	srai t1, t0, 28
+	add t2, t2, t1
+	mv a0, t2
+	ecall
+	
+	li a7, 4
 	la a0, msg_cos
 	ecall
 	
 	li a7, 1
 	lw a0, cos
+	ecall
+	
+	li a7, 4
+	la a0, msg_cos1
+	ecall
+	
+	li a7, 1
+	li t2, 0
+	lw t0, cos
+	srai t1, t0, 2
+	add t2, t2, t1
+	srai t1, t0, 3
+	add t2, t2, t1
+	srai t1, t0, 4
+	add t2, t2, t1
+	srai t1, t0, 6
+	add t2, t2, t1
+	srai t1, t0, 7
+	add t2, t2, t1	
+	srai t1, t0, 8
+	add t2, t2, t1
+	srai t1, t0, 13
+	add t2, t2, t1
+	srai t1, t0, 15
+	add t2, t2, t1
+	srai t1, t0, 19
+	add t2, t2, t1
+	srai t1, t0, 20
+	add t2, t2, t1
+	srai t1, t0, 21
+	add t2, t2, t1
+	srai t1, t0, 22
+	add t2, t2, t1
+	srai t1, t0, 24
+	add t2, t2, t1
+	srai t1, t0, 26
+	add t2, t2, t1
+	srai t1, t0, 27
+	add t2, t2, t1
+	srai t1, t0, 28
+	add t2, t2, t1
+	mv a0, t2
 	ecall
 	
 	li a7, 10
