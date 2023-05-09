@@ -7,11 +7,11 @@
 
 
 .data
-ARCTAN_ARR: .word 0x20000000,0x12e4051d,0x09fb385b,0x051111d4,0x028b0d43,0x0145d7e1,0x00a2f61e,0x00517c55,0x0028be53,0x00145f2e,0x000a2f98,0x000517cc,0x00028be6,0x000145f3,0x0000a2f9,0x0000517c,0x000028be,0x0000145f,0x00000a2f,0x00000517,0x0000028b,0x00000145,0x000000a2,0x00000051,0x00000028,0x00000014,0x0000000a,0x00000005,0x00000002,0x00000001,0x00000001,0x00000000
+ARCTAN_ARR: .word 0x40000000,0x25c80a3b,0x13f670b6,0x0a2223a8,0x05161a86,0x028bafc2,0x0145ec3c,0x00a2f8aa,0x00517ca6,0x0028be5d,0x00145f30,0x000a2f98,0x000517cc,0x00028be6,0x000145f3,0x0000a2f9,0x0000517c,0x000028be,0x0000145f,0x00000a2f,0x00000517,0x0000028b,0x00000145,0x000000a2,0x00000051,0x00000028,0x00000014,0x0000000a,0x00000005,0x00000002,0x00000001,0x00000000
 cos: .word 0x4dba76d4 #x = k constant
 sin: .word 0 #y
 angle: .word 0
-msg_input: .asciz "ANGLE(Degrees), RANGE 90 to -90: "
+msg_input: .asciz "ANGLE(Degrees), RANGE 89 to -89: "
 msg_sin: .asciz "SINUS\n"
 msg_cos: .asciz "\nCOSINUS\n"
 msg_sin1: .asciz "\nSINUS ADJUSTED\n"
@@ -29,30 +29,29 @@ msg_cos1: .asciz "\nCOSINUS ADJUSTED\n"
 	slli t0, t0, 24 #8 bit int. 
 	
 	li t1, 0
-	srai t2, t0, 7
+	srai t2, t0, 6
+	add t1, t1, t2
+	srai t2, t0, 8 
 	add t1, t1, t2
 	srai t2, t0, 9
 	add t1, t1, t2
-	srai t2, t0, 10
+	srai t2, t0, 11
 	add t1, t1, t2
 	srai t2, t0, 12
 	add t1, t1, t2
-	srai t2, t0, 13
+	srai t2, t0, 18
 	add t1, t1, t2
-	srai t2, t0, 19
+	srai t2, t0, 20
 	add t1, t1, t2
 	srai t2, t0, 21
 	add t1, t1, t2
-	srai t2, t0, 22
+	srai t2, t0, 23
 	add t1, t1, t2
 	srai t2, t0, 24
 	add t1, t1, t2
-	srai t2, t0, 25
+	srai t2, t0, 30
 	add t1, t1, t2
-	srai t2, t0, 31
-	add t1, t1, t2
-	
-	slli t1, t1, 6
+	slli t1, t1, 6	
 	
 	#li a7, 1
 	#mv a0, t1
@@ -76,10 +75,12 @@ angle_not_positive: #d = -1
 	sra t4, t4, t0 #y/2^i
 	add t6, t4, t5   
 	
-	
-	
+	#sltz a3, t5
+	#slt a4, t6, t4
+	#bne a3, a4, overflow_1	
 	
 	sw t6, cos, t3 #save x
+overflow_1:
 	#calculate new y
 	lw t4, sin #y, x is in t5
 	sra t5, t5, t0 #x/2^i
@@ -98,12 +99,14 @@ angle_positive: #d = 1
 	sub t6, t5, t4   
 
 	sw t6, cos, t3 #save x
-
-overflow_2:	
 	#calculate new y
 	lw t4, sin #y, x is in t5
 	sra t5, t5, t0 #x/2^i
 	add t6, t4, t5
+
+	#sltz a3, t5
+	#slt a4, t6, t4
+	#bne a3, a4, loop_end
 	
 	sw t6, sin, t4 #save y 	
 
