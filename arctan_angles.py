@@ -1,22 +1,28 @@
 from math import atan, pi
+import decimal as dc
+dc.getcontext().prec=32
 
-mul = 1<<31
+mul = dc.Decimal(1<<31)
 
 y = 0
-x = atan(2**(-0))/pi
+x = dc.Decimal(atan(2**(-0)))/dc.Decimal(pi)
 print('0x'+'{:08x}'.format(int(x*mul)), end=',')
 y+= 1
 for i in range(1, 31):
-    x = atan(2**(-i))/pi
+    x = dc.Decimal(atan(2**(-i)))/dc.Decimal(pi)
     print('0x'+'{:08x}'.format(int(x*mul)),end=',')
     y+=1
-x = atan(2**(-31))/pi
+x = dc.Decimal(atan(2**(-31)))/dc.Decimal(pi)
 print('0x'+'{:08x}'.format(int(x*mul)))
 y+= 1
-print(y)
-a = 1
+print(f"N: {y}")
+a = dc.Decimal(1)
 for i in range(y):
-    a *= 1/((1+2**(-2*i)**1/2))
-print('0x'+'{:08x}'.format(int(a*mul)))
-print(a)
-print(mul)
+    a *= 1+dc.Decimal(2)**dc.Decimal(-i*2)
+
+a = a**dc.Decimal(1/2)
+a = 1/a
+
+print("K const: " + '0x'+'{:08x}'.format(int(a*mul)))
+print(f"1/K: {a}")
+print(f"MUL: {mul}")
