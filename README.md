@@ -11,7 +11,8 @@ Author: Konrad Jurczyński-Chu
 ### Input
 - Passed in angles, covnerted to rad/(pi/2) through division by 90 using bitshift
 ### Output
-- Fraction part (output should be divided by 10^9)
+- Adjusted fraction part of sine and cosine value (should be divided by 10^9)
+- Unadjusted value of sine and cosine (should be divided by multiplier)
 ### Versions
 - Branches version uses checks and branches to perform correct operation
 - [<b>Broken</b>] XOR version uses bitwise logic operations which produces the same result as the desired operation 
