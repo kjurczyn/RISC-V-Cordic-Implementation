@@ -1,6 +1,6 @@
 #Implementation of CORDIC Algorithm in RISC-V Assembly using fixed-point arithmetic
 #Author: Konrad Jurczynski-Chu
-#Input in pi radians [-1, 1]*pi/2
+#Input in pi radians (-1, 1)*pi/2
 #n = 32 rotations
 #mul = 2147483648 
 # 1/K = 0.60725293500888125619139291755109
